@@ -17,8 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
             let newDiv = document.createElement("div");
             this.board.appendChild(newDiv);
             let y = Math.ceil((i+1)/this.width);
-            let x = (i+1)%this.width;
-            this.cells.push({reference:newDiv,x: x, y: y, isAlive: false, tableIndex: x*y});
+            let x;
+            if((i+1)%this.width===0){
+                x=this.width;
+            }
+            else {
+               x = (i+1)%this.width;
+            }
+            this.cells.push({reference:newDiv,x: x, y: y, isAlive: false, tableIndex: x + ((y-1)*this.width)});
         }
 
 /*        this.cells = document.querySelectorAll("#board div");*/
@@ -32,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 else {
                     cell.isAlive=false;
                 }
-                console.log(`${cell.x}, ${cell.y}`+` ` +cell.isAlive)
+                console.log(`${cell.x}, ${cell.y}`+` ` +cell.isAlive + ` table index: ${cell.tableIndex}`)
             })
         });
     };
