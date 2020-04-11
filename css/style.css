@@ -15,6 +15,9 @@ body {
     background-color: #ffffff;
     float: left;
 }
+#board div:hover {
+    cursor: pointer;
+}
 
 #board div.live {
     background-color: #000000;
