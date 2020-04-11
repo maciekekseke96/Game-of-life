@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     GameOfLife.prototype.createBoard = function () {      /*DODANIE DO KONSTRUKTORA FUNKCJI KREAUJĄCEJ NASZĄ SEKCJĘ BOARD*/
         this.board.style.width = `${this.width * 10}px`;
         this.board.style.height = `${this.height * 10}px`;
+        let self = this;
 
         let divsCountA = this.width * this.height;      /*CAŁKOWITA LICZBA WSZYSTKICH KOMÓREK*/
 
@@ -40,7 +41,15 @@ document.addEventListener("DOMContentLoaded", function () {
             let coordinatesToCount=[];
             let mainX = cell.x;
             let mainY = cell.y;
-            coordinatesToCount.push(1,2)
+            coordinatesToCount.push([mainX-1,mainY],[mainX-1,mainY-1],[mainX,mainY-1],[mainX+1,mainY+1],[mainX+1,mainY],[mainX+1,mainY-1],[mainX,mainY+1],[mainX-1,mainY-1]);
+
+            coordinatesToCount.forEach(function (element) {
+                indexesToShow.push(element[0]+((element[1]-1)*self.width));
+            });
+
+            indexesToShow.forEach(function (element) {
+                console.log(self.cells[element-1]);
+            })
         }
 
         this.cells.forEach(function (cell) {
@@ -52,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 else {
                     cell.isAlive=false;
                 }
-                console.log(cell);
+                showTheNeighbours(cell);
             })
         });
     };
