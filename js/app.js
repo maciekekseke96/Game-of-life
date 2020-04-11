@@ -41,14 +41,18 @@ document.addEventListener("DOMContentLoaded", function () {
             let coordinatesToCount=[];
             let mainX = cell.x;
             let mainY = cell.y;
-            coordinatesToCount.push([mainX-1,mainY],[mainX-1,mainY-1],[mainX,mainY-1],[mainX+1,mainY+1],[mainX+1,mainY],[mainX+1,mainY-1],[mainX,mainY+1],[mainX-1,mainY-1]);
+            coordinatesToCount.push([mainX-1,mainY],[mainX-1,mainY-1],[mainX,mainY-1],[mainX+1,mainY+1],[mainX+1,mainY],[mainX+1,mainY-1],[mainX,mainY+1],[mainX-1,mainY+1]);
 
-            coordinatesToCount.forEach(function (element) {
+            let filteredCoordinates = coordinatesToCount.filter(function (coordinate) {
+                return coordinate[0]>0 && coordinate[0]<=self.width && coordinate[1]>0 && coordinate[1]<=self.height
+            });
+            console.log(filteredCoordinates);
+            filteredCoordinates.forEach(function (element) {
                 indexesToShow.push(element[0]+((element[1]-1)*self.width));
             });
-
             indexesToShow.forEach(function (element) {
                 console.log(self.cells[element-1]);
+                self.cells[element-1].reference.style.backgroundColor = "red";
             })
         }
 
