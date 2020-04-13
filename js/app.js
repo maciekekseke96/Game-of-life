@@ -92,14 +92,24 @@ document.addEventListener("DOMContentLoaded", function () {
             return newStates;
         };
         let printNextGeneration = function () {
+            let threeColors = Math.floor(Math.random()*3+1);
             let newStates = computeNextGeneration();
             self.cells.forEach(function (cell, index) {
                 if(cell.isAlive===true&&newStates[index]===0){
                     cell.reference.classList.remove("live");
+                    cell.reference.style.backgroundColor = "#ffffff";
                     cell.isAlive = false;
                 }
                 else if(cell.isAlive===false&&newStates[index]===1){
                     cell.reference.classList.add("live");
+                    switch (threeColors) {
+                        case 1: cell.reference.style.backgroundColor = "red";
+                        break;
+                        case 2: cell.reference.style.backgroundColor = "blue";
+                        break;
+                        case 3: cell.reference.style.backgroundColor = "green";
+                        break;
+                    }
                     cell.isAlive = true;
                 }
             })

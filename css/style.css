@@ -14,6 +14,7 @@ body {
     border: 1px solid #cccccc;
     background-color: #ffffff;
     float: left;
+    border-radius: 50%;
 }
 #board div:hover {
     cursor: pointer;
