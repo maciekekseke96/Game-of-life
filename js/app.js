@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         this.cells.forEach(function (cell) {
-            cell.reference.addEventListener("click", function (e) {
+            cell.reference.addEventListener("mouseenter", function (e) {
                 this.classList.toggle("live");
 /*                computeCellNextState(cell);*/
                 if(cell.isAlive===false){
@@ -115,12 +115,21 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         };
         let playButton = document.querySelector("#play");
+        let pauseButton = document.querySelector("#pause");
         playButton.addEventListener("click", function (e) {
             e.preventDefault();
-            printNextGeneration();
+            let letsPlay = setInterval(function () {
+                printNextGeneration();
+            },500);
+            pauseButton.addEventListener("click", function (e) {
+                e.preventDefault();
+                clearInterval(letsPlay);
+            });
         });
     };
-    let game = new GameOfLife(20,20);
+    let rowsCount = parseFloat(prompt("How many rows?"));
+    let columnsCount = parseFloat(prompt("How many columns?"));
+    let game = new GameOfLife(rowsCount,columnsCount);
     game.createBoard();
 
 });
