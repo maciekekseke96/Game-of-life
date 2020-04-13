@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.cells.push(new NewCell(newDiv,x,y,tableIndex))  /*MOMENT WRZUCENIA OBIEKTU REPREZENTUJĄCEGO POJEDYNCZĄ KOMÓRKĘ DO TABLICY CELLS*/
         }
 
-        function showTheNeighbours(cell) {
+        function showTheNeighbours(cell) {   /*FUNKCJA OKREŚLAJĄCA MIEJSCE POŁOŻENIA SĄSIADÓW DANEJ KOMÓRKI W TABLICY WSZYSTKICH KOMÓREK*/
             let indexesToShow=[];
             let coordinatesToCount=[];
             let mainX = cell.x;
@@ -46,30 +46,81 @@ document.addEventListener("DOMContentLoaded", function () {
             let filteredCoordinates = coordinatesToCount.filter(function (coordinate) {
                 return coordinate[0]>0 && coordinate[0]<=self.width && coordinate[1]>0 && coordinate[1]<=self.height
             });
-            console.log(filteredCoordinates);
             filteredCoordinates.forEach(function (element) {
                 indexesToShow.push(element[0]+((element[1]-1)*self.width));
             });
-            indexesToShow.forEach(function (element) {
+/*            indexesToShow.forEach(function (element) {
                 console.log(self.cells[element-1]);
-                self.cells[element-1].reference.style.backgroundColor = "red";
-            })
+/!*                self.cells[element-1].reference.style.backgroundColor = "red";*!/
+            });*/
+            return indexesToShow;
         }
 
         this.cells.forEach(function (cell) {
             cell.reference.addEventListener("click", function (e) {
                 this.classList.toggle("live");
+/*                computeCellNextState(cell);*/
                 if(cell.isAlive===false){
                     cell.isAlive=true;
                 }
                 else {
                     cell.isAlive=false;
                 }
-                showTheNeighbours(cell);
             })
         });
-    };
+        let computeCellNextState = function (cell) {  /*FUNKCJA KALKULUJĄCA PRZYSZŁY STAN KOMÓRKI NA PODSTAWIE JEJ SĄSIADÓW*/
+            let cellNeighbours = showTheNeighbours(cell);
+            let aliveNeighbours = 0;
+            cellNeighbours.forEach(function (element) {
+                if(self.cells[element-1].isAlive){
+                    aliveNeighbours++;
+                }
+            });
+            if(cell.isAlive===true&&aliveNeighbours<2){
+                return 0;
+            }
+            else if(cell.isAlive&&(aliveNeighbours===2||aliveNeighbours===3)){
+                return 1;
+            }
+            else if(cell.isAlive&&aliveNeighbours>3){
+                return 0;
+            }
+            else if(!cell.isAlive&&aliveNeighbours===3){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        };
 
+        let computeNextGeneration = function () {
+            let newStates = [];
+            self.cells.forEach(function (cell) {
+                let nextState = computeCellNextState(cell);
+                newStates.push(nextState);
+            });
+            return newStates;
+        };
+        let printNextGeneration = function () {
+            let newStates = computeNextGeneration();
+            self.cells.forEach(function (cell, index) {
+                if(cell.isAlive===true&&newStates[index]===0){
+                    cell.reference.classList.remove("live");
+                    cell.isAlive = false;
+                }
+                else if(cell.isAlive===false&&newStates[index]===1){
+                    cell.reference.classList.add("live");
+                    cell.isAlive = true;
+                }
+            })
+        };
+        let playButton = document.querySelector("#play");
+        playButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            printNextGeneration();
+        });
+    };
     let game = new GameOfLife(20,20);
     game.createBoard();
+
 });
