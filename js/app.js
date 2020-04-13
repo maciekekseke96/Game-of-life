@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         this.cells.forEach(function (cell) {
             cell.reference.addEventListener("mouseenter", function (e) {
                 this.classList.add("live");
+                this.backgroundColor = "black";
                     cell.isAlive=true
             });
         });
