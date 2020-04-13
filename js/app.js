@@ -49,24 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
             filteredCoordinates.forEach(function (element) {
                 indexesToShow.push(element[0]+((element[1]-1)*self.width));
             });
-/*            indexesToShow.forEach(function (element) {
-                console.log(self.cells[element-1]);
-/!*                self.cells[element-1].reference.style.backgroundColor = "red";*!/
-            });*/
             return indexesToShow;
         }
 
         this.cells.forEach(function (cell) {
             cell.reference.addEventListener("mouseenter", function (e) {
-                this.classList.toggle("live");
-/*                computeCellNextState(cell);*/
-                if(cell.isAlive===false){
-                    cell.isAlive=true;
-                }
-                else {
-                    cell.isAlive=false;
-                }
-            })
+                this.classList.add("live");
+                    cell.isAlive=true
+            });
         });
         let computeCellNextState = function (cell) {  /*FUNKCJA KALKULUJĄCA PRZYSZŁY STAN KOMÓRKI NA PODSTAWIE JEJ SĄSIADÓW*/
             let cellNeighbours = showTheNeighbours(cell);
@@ -131,5 +121,4 @@ document.addEventListener("DOMContentLoaded", function () {
     let columnsCount = parseFloat(prompt("How many columns?"));
     let game = new GameOfLife(rowsCount,columnsCount);
     game.createBoard();
-
 });
