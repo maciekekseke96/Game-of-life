@@ -1,1 +1,1 @@
-Project that includes one of the most popular algorithm - "Game of life" 
+Project that includes one of the most popular algorithms - "Game of life" 
